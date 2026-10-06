@@ -135,6 +135,9 @@ rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
   // Base::on_activation(..) will get called twice,
   // but that's fine.
   using TYPE = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
+  // A joint move that a deactivation cut short is dropped: finishing it
+  // now would send its target in one cycle.
+  m_joint_cmd_service_active = false;
   if (MotionBase::on_activate(previous_state) != TYPE::SUCCESS ||
       ForceBase::on_activate(previous_state) != TYPE::SUCCESS)
   {
